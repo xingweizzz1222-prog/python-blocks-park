@@ -1,0 +1,120 @@
+/**
+ * 素材库面板样式（R10）：舞台列下方，与精灵面板视觉风格一致。
+ */
+
+.asset-panel {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--color-border);
+}
+
+.asset-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.asset-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.asset-import {
+  border: 1px solid var(--color-primary);
+  background: #fff;
+  color: var(--color-primary);
+  border-radius: 8px;
+  padding: 4px 10px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.asset-import:hover {
+  background: rgba(76, 151, 255, 0.08);
+}
+
+.asset-bg-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--color-text-dim, #5b6472);
+  margin-bottom: 8px;
+}
+
+.asset-bg-clear {
+  border: 1px solid var(--color-border);
+  background: #fff;
+  border-radius: 6px;
+  padding: 2px 8px;
+  font-size: 11px;
+  cursor: pointer;
+  color: #5b6472;
+}
+
+.asset-grid {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.asset-empty {
+  font-size: 12px;
+  color: #98a0ae;
+  padding: 4px 0;
+}
+
+.asset-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 86px;
+  padding: 6px 4px;
+  border: 2px solid var(--color-border);
+  border-radius: 10px;
+  background: #fff;
+}
+
+.asset-card.is-bg {
+  border-color: var(--color-primary);
+}
+
+.asset-card img {
+  width: 60px;
+  height: 44px;
+  object-fit: contain;
+  background: repeating-conic-gradient(#f0f2f5 0% 25%, #ffffff 0% 50%) 0 0 / 12px 12px;
+  border-radius: 4px;
+}
+
+.asset-name {
+  font-size: 11px;
+  color: var(--color-text);
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.asset-ops {
+  display: flex;
+  gap: 4px;
+}
+
+.asset-ops button {
+  border: 1px solid var(--color-border);
+  background: #fff;
+  border-radius: 6px;
+  padding: 1px 6px;
+  font-size: 11px;
+  cursor: pointer;
+  color: #5b6472;
+}
+
+.asset-ops button:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}

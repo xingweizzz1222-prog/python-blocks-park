@@ -1,0 +1,302 @@
+/**
+ * 启动动画样式（二期第二批 · 清单第十四节）。
+ * 分工：CSS 负责画面布局、纸箱跳动/箱盖开合、镜头转场；SVG 负责纸箱主体；
+ * Canvas 负责粒子/积木/光迹（见 intro/scene.ts）。
+ *
+ * 视觉口径：柔和深蓝黑背景（非纯黑）、暖黄纸箱中央偏下、柔和 2.5D、
+ * 无霓虹科技线条；进度条淡紫、失败按钮淡紫 pill（对照概念图）。
+ */
+
+/* 启动期间主界面不可操作（overlay 已全覆盖，此为双保险） */
+body.sc-intro-lock #app {
+  pointer-events: none;
+  user-select: none;
+}
+
+.sc-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 2000; /* 高于全部既有浮层（最高 1200） */
+  overflow: hidden;
+  background: radial-gradient(120% 90% at 50% 38%, #1a2036 0%, #10142a 52%, #0a0d1a 100%);
+  opacity: 1;
+}
+/* 转场末尾淡出：露出已就绪主界面，无白屏 */
+.sc-intro--leave {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* 背景氛围：两道极淡弧形飘带（概念图背景丝带），慢速漂移 */
+.sc-intro-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.sc-intro-bg::before,
+.sc-intro-bg::after {
+  content: '';
+  position: absolute;
+  width: 72vmax;
+  height: 72vmax;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  filter: blur(1.5px);
+}
+.sc-intro-bg::before {
+  left: -28vmax;
+  top: -30vmax;
+  border-top-color: rgba(124, 108, 240, 0.14);
+  border-right-color: rgba(124, 108, 240, 0.07);
+  animation: sc-ribbon-a 26s ease-in-out infinite alternate;
+}
+.sc-intro-bg::after {
+  right: -30vmax;
+  bottom: -34vmax;
+  border-bottom-color: rgba(255, 140, 26, 0.1);
+  border-left-color: rgba(153, 102, 255, 0.08);
+  animation: sc-ribbon-b 32s ease-in-out infinite alternate;
+}
+@keyframes sc-ribbon-a {
+  from { transform: rotate(-8deg) translate3d(0, 0, 0); }
+  to { transform: rotate(10deg) translate3d(4vmax, 2vmax, 0); }
+}
+@keyframes sc-ribbon-b {
+  from { transform: rotate(6deg) translate3d(0, 0, 0); }
+  to { transform: rotate(-9deg) translate3d(-3vmax, -2vmax, 0); }
+}
+
+.sc-intro-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* ---------- 纸箱定位与镜头 ---------- */
+.sc-box-slot {
+  position: absolute;
+  left: 50%;
+  top: 58%; /* 中央偏下（概念图） */
+  width: clamp(220px, 30vw, 340px);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+.sc-box-hop {
+  transform-origin: 50% 100%;
+}
+.sc-box {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+/* 箱下轻投影：随跳动同步压缩/淡化 */
+.sc-box-shadow {
+  position: absolute;
+  left: 50%;
+  bottom: -6%;
+  width: 86%;
+  height: 12%;
+  transform: translateX(-50%);
+  background: radial-gradient(50% 50% at 50% 50%, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 70%);
+}
+/* 箱口光环（概念图地面暖环） */
+.sc-box-slot::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -9%;
+  width: 112%;
+  height: 16%;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  border: 2px solid rgba(255, 191, 0, 0.28);
+  filter: blur(0.6px);
+}
+
+/* 跳动循环（约 1.05s：压缩→弹起→落下→回弹→恢复）。
+ * --hop 类挂载时即加：animation-delay 0.7s 实现"静止片刻再跳"，且 transform 动画
+ * 走合成器——Pyodide wasm 实例化占用主线程期间跳动不停（canvas 粒子待主线程恢复续跑）。 */
+.sc-intro--hop .sc-box-hop {
+  animation: sc-hop 1.05s cubic-bezier(0.36, 0.07, 0.19, 0.97) 0.7s infinite;
+}
+.sc-intro--hop .sc-box-shadow {
+  animation: sc-shadow 1.05s cubic-bezier(0.36, 0.07, 0.19, 0.97) 0.7s infinite;
+}
+@keyframes sc-hop {
+  0% { transform: translateY(0) scale(1, 1); }
+  12% { transform: translateY(2%) scale(1.06, 0.9); }
+  32% { transform: translateY(-15%) scale(0.96, 1.07); }
+  46% { transform: translateY(-17%) scale(1, 1); }
+  62% { transform: translateY(0) scale(1.05, 0.93); }
+  78% { transform: translateY(-3%) scale(0.98, 1.04); }
+  100% { transform: translateY(0) scale(1, 1); }
+}
+@keyframes sc-shadow {
+  0%, 100% { transform: translateX(-50%) scale(1); opacity: 1; }
+  12% { transform: translateX(-50%) scale(1.08); opacity: 1; }
+  32%, 46% { transform: translateX(-50%) scale(0.72); opacity: 0.55; }
+  62% { transform: translateX(-50%) scale(1.06); opacity: 1; }
+}
+
+/* 箱盖开合：INTRO 半合 → LOADING 张开 → 穿越大张 */
+.sc-flap {
+  transform-box: view-box;
+  transition: transform 0.6s cubic-bezier(0.34, 1.3, 0.64, 1);
+}
+.sc-flap-l { transform: rotate(26deg); }
+.sc-flap-r { transform: rotate(-26deg); }
+.sc-flap-f { transform: rotate(4deg); }
+.sc-intro--loading .sc-flap-l,
+.sc-intro--warp .sc-flap-l { transform: rotate(-6deg); }
+.sc-intro--loading .sc-flap-r,
+.sc-intro--warp .sc-flap-r { transform: rotate(6deg); }
+.sc-intro--loading .sc-flap-f { transform: rotate(-7deg); }
+.sc-intro--warp .sc-flap-f { transform: rotate(-14deg); }
+
+/* 箱口暖光：穿越时渐显 */
+.sc-box-glow {
+  opacity: 0;
+  transition: opacity 0.9s ease 0.25s;
+}
+.sc-intro--warp .sc-box-glow { opacity: 1; }
+
+/* 失败态：停跳（--loading 已移除）＋困惑涂鸦渐显轻摆 */
+.sc-box-scribble {
+  transition: opacity 0.5s ease;
+}
+.sc-intro--failed .sc-box-scribble {
+  opacity: 0.85;
+  animation: sc-scribble 1.8s ease-in-out infinite;
+  transform-box: view-box;
+  transform-origin: 205px 25px;
+}
+@keyframes sc-scribble {
+  0%, 100% { transform: rotate(-4deg); }
+  50% { transform: rotate(5deg); }
+}
+
+/* 穿越镜头：箱子居中放大成为入口（CSS 负责镜头推进） */
+.sc-intro--warp .sc-box-slot {
+  top: 52%;
+  transform: translate(-50%, -50%) scale(3.1);
+  transition:
+    top 1.4s cubic-bezier(0.55, 0.06, 0.68, 0.19),
+    transform 1.4s cubic-bezier(0.55, 0.06, 0.68, 0.19);
+}
+.sc-intro--warp .sc-intro-ui {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+/* ---------- 进度与失败 UI ---------- */
+.sc-intro-ui {
+  position: absolute;
+  left: 50%;
+  top: 78%;
+  transform: translateX(-50%);
+  width: min(560px, 86vw);
+  text-align: center;
+  color: #e8e6f5;
+}
+.sc-intro-text {
+  font-size: 15px;
+  letter-spacing: 0.06em;
+  margin-bottom: 12px;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+}
+.sc-intro-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.sc-intro-bar {
+  flex: 1;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  overflow: hidden;
+}
+.sc-intro-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #7c6cf0 0%, #c9b8ff 100%);
+  transition: width 0.35s ease;
+}
+.sc-intro-pct {
+  font-size: 13px;
+  color: #b9b4d0;
+  min-width: 38px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.sc-intro-failed {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.sc-intro-failed[hidden] { display: none; }
+.sc-intro-loading[hidden] { display: none; }
+/* 失败态：加载行已隐藏，UI 上移保证原因与重试按钮完整可见可点 */
+.sc-intro--failed .sc-intro-ui { top: 70%; }
+@media (max-height: 560px) {
+  .sc-intro--failed .sc-intro-ui { top: auto; bottom: 14px; }
+  .sc-intro--failed .sc-box-slot { top: 38%; }
+}
+.sc-intro-fail-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #f5f3fa;
+}
+.sc-intro-fail-sub {
+  font-size: 14px;
+  color: #b9b4d0;
+}
+.sc-intro-reason {
+  font-size: 12px;
+  color: #8f96b2;
+  max-width: 520px;
+  max-height: 3.4em;
+  overflow: hidden;
+  word-break: break-all;
+  font-family: ui-monospace, Consolas, monospace;
+}
+.sc-intro-retry {
+  margin-top: 10px;
+  padding: 10px 26px;
+  border: none;
+  border-radius: 999px;
+  background: #8b7cf6;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.12s ease;
+}
+.sc-intro-retry:hover { background: #9d8ffb; }
+.sc-intro-retry:active { transform: scale(0.96); }
+
+/* 页面隐藏：暂停 CSS 动画（rAF 循环由 JS 停） */
+.sc-intro[data-hidden] .sc-box-hop,
+.sc-intro[data-hidden] .sc-box-shadow,
+.sc-intro[data-hidden] .sc-intro-bg::before,
+.sc-intro[data-hidden] .sc-intro-bg::after,
+.sc-intro[data-hidden] .sc-box-scribble {
+  animation-play-state: paused;
+}
+
+/* 弱动效偏好：停跳动与飘带（Canvas 生成率由场景上限自然约束） */
+@media (prefers-reduced-motion: reduce) {
+  .sc-intro--hop .sc-box-hop,
+  .sc-intro--hop .sc-box-shadow,
+  .sc-intro-bg::before,
+  .sc-intro-bg::after {
+    animation: none;
+  }
+}

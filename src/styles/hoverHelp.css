@@ -1,0 +1,24 @@
+/* UI-01 积木悬浮中文说明框：淡灰背景、简洁轻量、中文清晰易读。
+   pointer-events: none 保证浮层不拦截指针（验收⑤：不影响拖动/连接/编辑/执行）。
+   显示/隐藏均为立即切换（清单要求离开立即消失，不加延迟淡出）。 */
+.sc-hover-help {
+  position: fixed;
+  z-index: 950;
+  max-width: 280px;
+  padding: 9px 12px;
+  background: #f2f3f5;
+  border: 1px solid #d8dbe0;
+  border-radius: 8px;
+  box-shadow: 0 4px 14px rgba(30, 36, 48, 0.1);
+  pointer-events: none;
+  font-size: 12.5px;
+  line-height: 1.65;
+  color: #3a4150;
+}
+
+.sc-hover-help-title {
+  font-weight: 700;
+  font-size: 12px;
+  color: #555c69;
+  margin-bottom: 3px;
+}

@@ -1,0 +1,103 @@
+/**
+ * 大屏展示页样式：暗色演示风格，顶栏 + 自适应舞台画布。
+ */
+
+.fs-shell {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #151a24;
+}
+
+/* ---------- 顶栏 ---------- */
+.fs-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 14px;
+  background: #1e2430;
+  color: #e8ecf4;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+}
+
+.fs-title {
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.fs-status {
+  font-size: 12px;
+  color: #98a0ae;
+}
+
+.fs-status.ok {
+  color: #7fd68a;
+}
+
+.fs-status.bad {
+  color: #ff9d9d;
+}
+
+.fs-hint {
+  font-size: 12px;
+  color: #6b7382;
+  flex: 1;
+  min-width: 160px;
+}
+
+.fs-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.fs-btn {
+  border: 1px solid #3a4356;
+  background: #262e3d;
+  color: #e8ecf4;
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.fs-btn:hover {
+  background: #313a4c;
+}
+
+.fs-btn.flag {
+  color: #7fd68a;
+}
+
+.fs-btn.flag.running {
+  background: #2c4a33;
+  box-shadow: 0 0 0 2px #4d8a58 inset;
+}
+
+.fs-btn.pause {
+  color: #ffd479;
+}
+
+.fs-btn.pause.paused {
+  background: #4a3d20;
+  box-shadow: 0 0 0 2px #8a7434 inset;
+}
+
+.fs-btn.reset {
+  color: #aeb8c9;
+}
+
+/* ---------- 舞台画布区 ---------- */
+.fs-stage-wrap {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+}
+
+.fs-stage-wrap canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+}

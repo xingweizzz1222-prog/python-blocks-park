@@ -1,0 +1,118 @@
+/**
+ * 运行时样式：转圈渐变圆加载动画（占位方案）+ 结构化错误卡片（R8）。
+ */
+
+/* 加载覆盖层：铺满舞台 */
+.runtime-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  background: rgba(255, 255, 255, 0.92);
+}
+
+/* 一直转圈的渐变圆：conic 渐变 + 中心挖空成圆环 */
+.gradient-spinner {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, #4c97ff, #9966ff, #ff8c1a, #ffbf00, #4c97ff);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 10px), #000 calc(100% - 9px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 10px), #000 calc(100% - 9px));
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.runtime-overlay-text {
+  font-size: 14px;
+  color: #5a6472;
+  text-align: center;
+  line-height: 1.7;
+}
+
+.runtime-overlay-text small {
+  color: #98a0ae;
+}
+
+.runtime-error {
+  color: #d64545;
+  font-size: 14px;
+  text-align: center;
+  line-height: 1.7;
+}
+
+/* 加载失败详情（R13）：原始错误信息小字灰显，供排查但不喧宾夺主 */
+.runtime-error-detail {
+  color: #98a0ae;
+  font-size: 11px;
+  font-family: Consolas, Menlo, monospace;
+  text-align: center;
+  max-width: 90%;
+  word-break: break-all;
+  margin: 4px 0 8px;
+}
+
+.runtime-retry {
+  border: 1px solid var(--color-primary);
+  background: var(--color-primary);
+  color: #fff;
+  border-radius: 8px;
+  padding: 6px 18px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+/* 脚本错误卡片（R8）：舞台底部浮出，类型/精灵/行号/消息 + 手动关闭 */
+.runtime-error-card {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  z-index: 11;
+  background: #fdeaea;
+  border: 1px solid #f0c4c4;
+  color: #b03a3a;
+  border-radius: 8px;
+  padding: 8px 28px 8px 12px;
+  font-size: 12px;
+  line-height: 1.6;
+  word-break: break-all;
+}
+
+.runtime-error-card-title {
+  font-weight: 600;
+}
+
+.runtime-error-card-meta {
+  color: #a05252;
+}
+
+.runtime-error-card-msg {
+  font-family: Consolas, Menlo, monospace;
+}
+
+.runtime-error-card-close {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  border: none;
+  background: none;
+  color: #b03a3a;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 2px 4px;
+}
+
+.runtime-error-card-close:hover {
+  color: #7d2626;
+}

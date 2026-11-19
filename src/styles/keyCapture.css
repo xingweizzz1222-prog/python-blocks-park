@@ -1,0 +1,59 @@
+/**
+ * 自定义按键捕获浮层样式（R17）。功能性排版：遮罩居中卡片 + 提示行 + 取消按钮。
+ * 配色沿用应用主色与中性灰，不做额外视觉装饰。
+ */
+
+.kc-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1100; /* 高于素材调整对话框（1000），捕获期间压住一切界面 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15, 23, 42, 0.5);
+}
+
+.kc-card {
+  width: min(420px, 90vw);
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 12px 40px rgba(15, 23, 42, 0.25);
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: center;
+}
+
+.kc-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333a45;
+}
+
+.kc-sub {
+  font-size: 12px;
+  color: #8a93a2;
+  line-height: 1.5;
+}
+
+.kc-hint {
+  min-height: 22px;
+  font-size: 13px;
+  color: #4c97ff;
+}
+
+.kc-hint.is-warn {
+  color: #e0a030;
+}
+
+.kc-cancel {
+  align-self: center;
+  padding: 6px 22px;
+  font-size: 13px;
+  border: 1px solid #d4d9e1;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #5b6472;
+  cursor: pointer;
+}

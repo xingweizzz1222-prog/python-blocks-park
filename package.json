@@ -1,0 +1,21 @@
+{
+  "name": "qoder-sc",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Scratch 式 Python 编程启蒙网站（2026 Qoder 高校创造力大赛作品）",
+  "type": "module",
+  "scripts": {
+    "prepare:pyodide": "node scripts/copy-pyodide.mjs",
+    "dev": "npm run prepare:pyodide && vite",
+    "build": "npm run prepare:pyodide && tsc --noEmit && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "blockly": "^13.4.0",
+    "pyodide": "^314.0.8"
+  },
+  "devDependencies": {
+    "typescript": "^7.0.2",
+    "vite": "^8.3.8"
+  }
+}

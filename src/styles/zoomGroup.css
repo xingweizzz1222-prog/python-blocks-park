@@ -1,0 +1,22 @@
+/* UI-02 缩放三按钮组视觉分组（纯视觉）：
+   浅色圆角共享容器＋统一图标 hover 反馈。
+   容器 pointer-events: none，不遮挡积木拖动/连接/编辑（验收⑤）。 */
+.sc-zoom-group-bg {
+  fill: #f7f8fa;
+  fill-opacity: 0.95;
+  stroke: #d5dbe5;
+  stroke-width: 1;
+  pointer-events: none;
+}
+
+g.blocklyZoom {
+  cursor: pointer;
+}
+
+g.blocklyZoom > image {
+  transition: opacity 0.12s;
+}
+
+g.blocklyZoom:hover > image {
+  opacity: 0.6;
+}

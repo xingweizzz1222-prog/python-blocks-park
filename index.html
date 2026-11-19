@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Python 积木乐园 · 编程启蒙创作工具</title>
+  </head>
+  <body>
+    <!-- 应用根节点：三栏布局由 src/layout 模块渲染 -->
+    <div id="app"></div>
+    <!-- 启动画面：main.ts 的首个 import 即 intro/boot（同 chunk 内先于 Blockly 求值），
+         保证进入网站立即显示启动动画，编辑器装配与 Pyodide 准备与其并行（第十四节） -->
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

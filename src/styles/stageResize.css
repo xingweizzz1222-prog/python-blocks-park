@@ -1,0 +1,112 @@
+/**
+ * 舞台缩放把手样式（R5）：四边条 + 四角块，环绕 stage-host 定位。
+ * 边条默认隐形、悬停显色；四角常驻淡色 grip 提示可拖拽。
+ */
+
+.stage-resize-wrap {
+  position: relative;
+  flex-shrink: 0; /* 与 stage-host 一致：不被列内 flex 压缩 */
+}
+
+.rz-handle {
+  position: absolute;
+  z-index: 6; /* 高于画布与加载覆盖层边缘 */
+  touch-action: none; /* 拖拽时禁止页面滚动/手势 */
+}
+
+/* 把手可视条：默认透明，悬停/拖拽中显色 */
+.rz-handle::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 4px;
+  background: rgba(76, 151, 255, 0);
+  transition: background 0.15s;
+}
+
+.rz-handle:hover::after {
+  background: rgba(76, 151, 255, 0.45);
+}
+
+body.stage-resizing .rz-handle::after {
+  background: rgba(76, 151, 255, 0.25);
+}
+
+/* 四角常驻淡色 grip（可发现性） */
+.rz-ne::after,
+.rz-nw::after,
+.rz-se::after,
+.rz-sw::after {
+  background: rgba(76, 151, 255, 0.35);
+}
+
+/* ---------- 四边 ---------- */
+.rz-n {
+  top: -5px;
+  left: 12px;
+  right: 12px;
+  height: 10px;
+  cursor: ns-resize;
+}
+
+.rz-s {
+  bottom: -5px;
+  left: 12px;
+  right: 12px;
+  height: 10px;
+  cursor: ns-resize;
+}
+
+.rz-e {
+  right: -5px;
+  top: 12px;
+  bottom: 12px;
+  width: 10px;
+  cursor: ew-resize;
+}
+
+.rz-w {
+  left: -5px;
+  top: 12px;
+  bottom: 12px;
+  width: 10px;
+  cursor: ew-resize;
+}
+
+/* ---------- 四角 ---------- */
+.rz-ne {
+  top: -6px;
+  right: -6px;
+  width: 14px;
+  height: 14px;
+  cursor: nesw-resize;
+}
+
+.rz-nw {
+  top: -6px;
+  left: -6px;
+  width: 14px;
+  height: 14px;
+  cursor: nwse-resize;
+}
+
+.rz-se {
+  bottom: -6px;
+  right: -6px;
+  width: 14px;
+  height: 14px;
+  cursor: nwse-resize;
+}
+
+.rz-sw {
+  bottom: -6px;
+  left: -6px;
+  width: 14px;
+  height: 14px;
+  cursor: nesw-resize;
+}
+
+/* 拖拽中禁止文本选中，避免误选界面文字 */
+body.stage-resizing {
+  user-select: none;
+}

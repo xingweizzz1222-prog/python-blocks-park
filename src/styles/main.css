@@ -1,0 +1,41 @@
+/**
+ * 全局基础样式：重置、字体、配色变量。
+ * 各模块专属样式在后续任务中按模块追加（layout.css / stage.css 等）。
+ */
+:root {
+  /* 主题配色：向 Scratch 靠拢（蓝紫主色 + 明快分类色） */
+  --color-primary: #4c97ff; /* 运动蓝 */
+  --color-bg: #f2f4f8;
+  --color-panel: #ffffff;
+  --color-border: #d9dfe8;
+  --color-text: #333a45;
+  --font-ui: 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: var(--font-ui);
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+
+#app,
+#fullscreen-app {
+  height: 100%;
+}
+
+.app-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-size: 18px;
+  color: #8a93a3;
+}

@@ -1,0 +1,274 @@
+/**
+ * 布局样式：顶栏 + 三栏内容区 + 响应式。
+ * 积木栏的显隐由 Blockly Toolbox API 处理（见 blocks 模块），此处只管布局外观。
+ */
+
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* ---------- 顶栏 ---------- */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 12px;
+  background: var(--color-primary);
+  color: #fff;
+  flex-wrap: wrap;
+}
+
+.topbar-left,
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.app-title {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.topbar-btn {
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.topbar-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.topbar-btn.accent {
+  background: #ffbf00;
+  border-color: #ffbf00;
+  color: #5c4a00;
+  font-weight: 700;
+}
+
+.topbar-btn.accent:hover {
+  background: #ffcf40;
+}
+
+.topbar-btn.off {
+  opacity: 0.65;
+}
+
+.save-status {
+  font-size: 12px;
+  opacity: 0.9;
+  min-width: 90px;
+  text-align: right;
+}
+
+/* ---------- 内容区 ---------- */
+.content {
+  flex: 1;
+  display: flex;
+  min-height: 0; /* 允许子元素内部滚动 */
+}
+
+/* 编辑器列：积木栏（Blockly 工具箱）+ 脚本区 */
+.editor-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  border-right: 1px solid var(--color-border);
+}
+
+.editor-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 10px;
+  background: var(--color-panel);
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* 积木/代码 分段切换按钮 */
+.view-toggle {
+  display: inline-flex;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  overflow: hidden;
+  padding: 0;
+  cursor: pointer;
+  background: #eef1f6;
+}
+
+.view-toggle .seg {
+  padding: 5px 14px;
+  font-size: 13px;
+  color: #6b7382;
+}
+
+.view-toggle .seg.active {
+  background: var(--color-primary);
+  color: #fff;
+  font-weight: 700;
+}
+
+.editor-hint {
+  font-size: 12px;
+  color: #98a0ae;
+}
+
+.editor-body {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+}
+
+.blockly-host {
+  position: absolute;
+  inset: 0;
+}
+
+/* 代码视图面板：覆盖编辑器列，只读展示 */
+.code-panel {
+  position: absolute;
+  inset: 0;
+  background: #1e2430;
+  overflow: auto;
+  z-index: 5;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ---------- 舞台列 ---------- */
+/* 宽度上限由 R5 缩放模块夹取（保证编辑器列最小宽度），此处不再设 max-width，
+   否则 CSS 上限会截断模块写入的内联宽度，导致拖拽换算与实际宽度不一致 */
+.stage-column {
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  gap: 8px;
+  background: var(--color-bg);
+  overflow-y: auto;
+}
+
+.stage-toolbar {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.stage-btn {
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background: var(--color-panel);
+  padding: 6px 14px;
+  font-size: 14px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.stage-btn.flag {
+  color: #3fa34d;
+}
+
+.stage-btn.flag:hover {
+  background: #e7f6e9;
+}
+
+.stage-btn.flag.running {
+  background: #d3f0d8;
+  box-shadow: 0 0 0 2px #8fd69a inset;
+}
+
+.stage-btn.pause {
+  color: #b07d00;
+}
+
+.stage-btn.pause:hover {
+  background: #fdf3d7;
+}
+
+.stage-btn.pause.paused {
+  background: #fbe6a2;
+  box-shadow: 0 0 0 2px #e4c65f inset;
+}
+
+.stage-btn.reset {
+  color: #5b6472;
+}
+
+.stage-btn.reset:hover {
+  background: #eceff4;
+}
+
+/* R20：小/大舞台模式切换按钮；大舞台态高亮（同 pause.paused 内描边模式） */
+.stage-btn.mode {
+  color: #4c6ef5;
+}
+
+.stage-btn.mode:hover {
+  background: #e7edff;
+}
+
+.stage-btn.mode.active {
+  background: #dbe4ff;
+  box-shadow: 0 0 0 2px #91a7ff inset;
+}
+
+.stage-host {
+  width: 100%;
+  aspect-ratio: 4 / 3; /* Scratch 舞台 480×360 */
+  flex-shrink: 0; /* 防止列内 flex 压缩画布高度 */
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+.sprite-panel {
+  background: var(--color-panel);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 8px;
+  min-height: 96px;
+  flex-shrink: 0;
+}
+
+/* ---------- 响应式：窄屏时舞台列改为下方横排 ---------- */
+@media (max-width: 900px) {
+  .content {
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  .editor-column {
+    min-height: 55vh;
+    border-right: none;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .stage-column {
+    width: 100%;
+    max-width: none;
+    flex-shrink: 0; /* 保持自然高度，让 .content 整体滚动，避免舞台被压成小窗 */
+  }
+
+  /* 窄屏：缩放容器整体限宽居中，把手始终贴合舞台边缘 */
+  .stage-resize-wrap {
+    max-width: 480px;
+    margin: 0 auto;
+  }
+}

@@ -1,0 +1,120 @@
+/**
+ * 素材显示调整对话框样式（R16）。
+ * 只做功能性排版：遮罩居中、预览 4:3、模式页签、提示行、底部按钮。
+ * 配色沿用应用既有主色（#4c97ff）与中性灰，不做额外视觉装饰。
+ */
+
+.aa-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15, 23, 42, 0.5);
+}
+
+.aa-dialog {
+  width: min(560px, 94vw);
+  max-height: 92vh;
+  overflow: auto;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 12px 40px rgba(15, 23, 42, 0.25);
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.aa-head {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.aa-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #333a45;
+}
+
+.aa-sub {
+  font-size: 12px;
+  color: #8a93a2;
+}
+
+.aa-tabs {
+  display: flex;
+  gap: 6px;
+}
+
+.aa-tab {
+  flex: 1;
+  padding: 6px 0;
+  font-size: 13px;
+  border: 1px solid #d4d9e1;
+  border-radius: 6px;
+  background: #f6f7f9;
+  color: #5b6472;
+  cursor: pointer;
+}
+
+.aa-tab.is-active {
+  background: #4c97ff;
+  border-color: #4c97ff;
+  color: #ffffff;
+}
+
+.aa-stage {
+  border: 1px solid #d4d9e1;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #f0f2f5;
+}
+
+.aa-stage canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  touch-action: none; /* 指针拖拽不被浏览器手势接管 */
+}
+
+.aa-info {
+  min-height: 18px;
+  font-size: 12px;
+  color: #5b6472;
+  line-height: 1.5;
+}
+
+.aa-foot {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.aa-cancel,
+.aa-ok {
+  padding: 7px 18px;
+  font-size: 13px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.aa-cancel {
+  border: 1px solid #d4d9e1;
+  background: #ffffff;
+  color: #5b6472;
+}
+
+.aa-ok {
+  border: 1px solid #4c97ff;
+  background: #4c97ff;
+  color: #ffffff;
+}
+
+.aa-ok:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

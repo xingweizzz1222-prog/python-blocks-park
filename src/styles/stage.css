@@ -1,0 +1,173 @@
+/**
+ * 舞台与精灵面板样式。
+ */
+
+.stage-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: none; /* 拖拽精灵时禁止页面滚动 */
+  cursor: grab;
+}
+
+.stage-canvas:active {
+  cursor: grabbing;
+}
+
+/* ---------- 精灵面板 ---------- */
+.sprite-list {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.sprite-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 76px;
+  padding: 6px 4px;
+  border: 2px solid var(--color-border);
+  border-radius: 10px;
+  background: #fff;
+  cursor: pointer;
+  position: relative; /* R14 齿轮覆盖层定位基准 */
+}
+
+.sprite-card img {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  transition: opacity 0.15s;
+}
+
+/* R14 设置入口：悬停卡片 → 缩略图淡化 + 中央浮现齿轮按钮 */
+.sprite-gear {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 19px;
+  border-radius: 50%;
+  background: rgba(76, 151, 255, 0.92);
+  color: #fff;
+  opacity: 0;
+  pointer-events: none; /* 隐藏时不拦截卡片点击 */
+  transition: opacity 0.15s;
+  cursor: pointer;
+}
+
+.sprite-card:hover img {
+  opacity: 0.4;
+}
+
+.sprite-card:hover .sprite-gear {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.sprite-gear:hover {
+  background: var(--color-primary);
+}
+
+.sprite-card .sprite-name {
+  font-size: 12px;
+  color: var(--color-text);
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sprite-card.selected {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(76, 151, 255, 0.25);
+}
+
+.sprite-add {
+  width: 76px;
+  border: 2px dashed var(--color-border);
+  border-radius: 10px;
+  background: transparent;
+  color: #6b7382;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.sprite-add:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.sprite-ops {
+  margin-top: 8px;
+}
+
+/* R14：操作行横排（设置按钮 + 删除按钮） */
+.sprite-ops-row {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.sprite-settings-btn {
+  border: 1px solid #cdd6e4;
+  background: #f4f7fb;
+  color: #4a5568;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.sprite-settings-btn:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  background: #eef4ff;
+}
+
+.sprite-del {
+  border: 1px solid #f0c4c4;
+  background: #fdeaea;
+  color: #d64545;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.sprite-del:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* 图层四操作按钮行（R12）：两行两列小按钮，紧凑不挤占面板 */
+.sprite-layer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+}
+
+.sprite-layer-btn {
+  border: 1px solid #cdd6e4;
+  background: #f4f7fb;
+  color: #4a5568;
+  border-radius: 6px;
+  padding: 3px 4px;
+  font-size: 11px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.sprite-layer-btn:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  background: #eef4ff;
+}
